@@ -25,7 +25,9 @@ const FormRow = (props: FormRowProps) => {
     } = props;
 
     return (
-        <>
+        <div
+            className="form-row-field"
+        >
             <Controller
                 rules={{
                     required: required,
@@ -37,8 +39,12 @@ const FormRow = (props: FormRowProps) => {
                     if (isTouched && error) errors.push(error.type);
 
                     return (
-                        <>
-                            <div>
+                        <div
+                            className="form-row-field-wrapper"
+                        >
+                            <div
+                                className="form-row-field-wrapper-column column--label"
+                            >
                                 {label && (
                                     <div>
                                         <label
@@ -52,24 +58,38 @@ const FormRow = (props: FormRowProps) => {
                                     {render({ field, fieldState, formState })}
                                 </div>
                             </div>
-                            <div>
+                            <div
+                                className="form-row-field-wrapper-column column--input"
+                            >
                                 {helps.length > 0 && (
                                     <div>
-                                        helpers ... {JSON.stringify(helps)}
+                                        {helps.map((msg) => (
+                                            <div
+                                                key={msg}
+                                            >
+                                                {msg}
+                                            </div>
+                                        ))}
                                     </div>
                                 )}
                                 {errors.length > 0 && (
                                     <div>
-                                        errors ... {JSON.stringify(errors)}
+                                        {errors.map((err) => (
+                                            <div
+                                                key={err}
+                                            >
+                                                error key "{err}"
+                                            </div>
+                                        ))}
                                     </div>
                                 )}
                             </div>
-                        </>
+                        </div>
                     );
                 }}
                 {...rest}
             />
-        </>
+        </div>
     );
 };
 
