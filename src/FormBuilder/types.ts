@@ -1,5 +1,5 @@
 import React from "react";
-import { UseFormReturn, UseFormWatch } from "react-hook-form";
+import { UseFormReturn } from "react-hook-form";
 
 export type DefaultValueProps = string | number | (string | number)[] | null | true | false;
 
@@ -19,7 +19,8 @@ export type FormMetaItemType =
     | "multiple-select"
     | "divider";
 
-export type FormMetaItemProps<TFieldValues extends FieldValueProps = FieldValueProps> = {
+export type FormMetaItemProps = {
+    id?: string,
     name: string,
     type: FormMetaItemType,
     defaultValue?: DefaultValueProps,

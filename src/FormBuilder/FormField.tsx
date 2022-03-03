@@ -26,6 +26,7 @@ const FormField = (props: FormFieldProps) => {
         field: {
             name,
             type,
+            id,
             defaultValue,
             label,
             placeholder,
@@ -46,10 +47,12 @@ const FormField = (props: FormFieldProps) => {
             // watch,
             // getValues,
             // setValue,
-            // register,
             control,
+            // register,
         },
     } = props;
+
+    const fieldId = id ? id : name;
 
     return (
         <FormRow
@@ -67,9 +70,11 @@ const FormField = (props: FormFieldProps) => {
             }}
             defaultValue={defaultValue}
             helps={helps}
+            id={fieldId}
             render={({ field, fieldState }) => {
                 const {
                     ref,
+                    value,
                     onChange,
                     ...fieldRest
                 } = field;
@@ -102,6 +107,18 @@ const FormField = (props: FormFieldProps) => {
                     return node;
                 };
 
+                const checkboxToggle = (e: any) => {
+                    const val: string | number = e.target.value;
+                    const arr = [ ...value ];
+                    const index = arr.indexOf(val);
+                    if (index > -1) {
+                        arr.splice(index, 1);
+                    } else {
+                        arr.push(val);
+                    }
+                    onChange(arr);
+                };
+
                 switch (type) {
 
                     case "divider":
@@ -119,6 +136,8 @@ const FormField = (props: FormFieldProps) => {
                                 required={required}
                                 disabled={disabled}
                                 onChange={changeControl}
+                                value={value}
+                                id={fieldId}
                                 {...fieldRest}
                             />
                         );
@@ -131,6 +150,8 @@ const FormField = (props: FormFieldProps) => {
                                 required={required}
                                 disabled={disabledControl()}
                                 onChange={changeControl}
+                                value={value}
+                                id={fieldId}
                                 {...fieldRest}
                             />
                         );
@@ -143,6 +164,8 @@ const FormField = (props: FormFieldProps) => {
                                 required={required}
                                 disabled={disabled}
                                 onChange={changeControl}
+                                value={value}
+                                id={fieldId}
                                 {...fieldRest}
                             />
                         );
@@ -155,6 +178,8 @@ const FormField = (props: FormFieldProps) => {
                                 required={required}
                                 disabled={disabled}
                                 onChange={changeControl}
+                                value={value}
+                                id={fieldId}
                                 {...fieldRest}
                             />
                         );
@@ -167,6 +192,8 @@ const FormField = (props: FormFieldProps) => {
                                 required={required}
                                 disabled={disabled}
                                 onChange={changeControl}
+                                value={value}
+                                id={fieldId}
                                 {...fieldRest}
                             />
                         );
@@ -179,6 +206,8 @@ const FormField = (props: FormFieldProps) => {
                                 required={required}
                                 disabled={disabled}
                                 onChange={changeControl}
+                                value={value}
+                                id={fieldId}
                                 {...fieldRest}
                             />
                         );
@@ -191,6 +220,8 @@ const FormField = (props: FormFieldProps) => {
                                 required={required}
                                 disabled={disabled}
                                 onChange={changeControl}
+                                value={value}
+                                id={fieldId}
                                 {...fieldRest}
                             />
                         );
@@ -202,21 +233,20 @@ const FormField = (props: FormFieldProps) => {
                                     <>
                                         {options.map((item) => {
                                             const {
-                                                name,
-                                                value = [],
                                                 label,
                                                 disabled,
                                                 ...rest
                                             } = item;
-                                            const isChecked = field?.value?.includes(value);
+
+                                            const isChecked = value.includes(item.value);
 
                                             return (
                                                 <Checkbox
-                                                    key={name}
+                                                    key={label}
                                                     checked={isChecked}
                                                     disabled={disabled}
                                                     label={label}
-                                                    onChange={field.onChange}
+                                                    onChange={checkboxToggle}
                                                     {...rest}
                                                 />
                                             );
@@ -224,9 +254,12 @@ const FormField = (props: FormFieldProps) => {
                                     </>
                                 ) : (
                                     <Checkbox
-                                        checked={field.value}
+                                        checked={!!value}
                                         disabled={disabled}
                                         label={label}
+                                        onChange={onChange}
+                                        value={value}
+                                        id={fieldId}
                                         {...fieldRest}
                                     />
                                 )}
@@ -240,21 +273,21 @@ const FormField = (props: FormFieldProps) => {
                                     <>
                                         {options.map((item) => {
                                             const {
-                                                name,
-                                                value,
                                                 label,
                                                 disabled,
                                                 ...rest
                                             } = item;
-                                            const isChecked = value === field.value;
+
+                                            const isChecked = value === item.value;
 
                                             return (
                                                 <Radio
-                                                    key={name}
+                                                    key={label}
+                                                    name={name}
                                                     checked={isChecked}
                                                     disabled={disabled}
                                                     label={label}
-                                                    onChange={field.onChange}
+                                                    onChange={onChange}
                                                     {...rest}
                                                 />
                                             );
@@ -262,8 +295,12 @@ const FormField = (props: FormFieldProps) => {
                                     </>
                                 ) : (
                                     <Radio
-                                        checked={field.value}
+                                        checked={value}
                                         disabled={disabled}
+                                        onChange={onChange}
+                                        value={value}
+                                        id={fieldId}
+                                        label={label}
                                         {...fieldRest}
                                     />
                                 )}
@@ -279,6 +316,8 @@ const FormField = (props: FormFieldProps) => {
                                 disabled={disabled}
                                 options={options}
                                 onChange={changeControl}
+                                value={value}
+                                id={fieldId}
                                 {...fieldRest}
                             />
                         );
@@ -292,6 +331,8 @@ const FormField = (props: FormFieldProps) => {
                                 disabled={disabled}
                                 options={options}
                                 onChange={changeControl}
+                                value={value}
+                                id={fieldId}
                                 {...fieldRest}
                             />
                         );

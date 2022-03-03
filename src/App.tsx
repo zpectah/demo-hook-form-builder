@@ -46,7 +46,7 @@ function App() {
                 "select": "value1",
             }}
             metadata={{
-                "row1": [
+                "r1": [
                     {
                         name: "text1",
                         type: "text",
@@ -67,7 +67,7 @@ function App() {
                         disabledWhen: (form => form.watch("select") === "value1"),
                     },
                 ],
-                "row2": [
+                "r2": [
                     {
                         name: "textarea",
                         type: "textarea",
@@ -78,7 +78,7 @@ function App() {
                         disabled: false,
                     },
                 ],
-                "row3": [
+                "r3": [
                     {
                         name: "number",
                         type: "number",
@@ -92,7 +92,7 @@ function App() {
                         ],
                     },
                 ],
-                "row4": [
+                "r4": [
                     {
                         name: "datetime",
                         type: "datetime",
@@ -107,7 +107,7 @@ function App() {
                         showWhen: (form => form.watch("select") !== "value1"),
                     },
                 ],
-                "row5": [
+                "r5": [
                     {
                         name: "select",
                         type: "select",
@@ -119,7 +119,7 @@ function App() {
                         options: defaultOptionsList,
                     },
                 ],
-                "row6": [
+                "r6": [
                     {
                         name: "multiple-select",
                         type: "multiple-select",
@@ -131,13 +131,13 @@ function App() {
                         options: defaultOptionsList,
                     },
                 ],
-                "row6b": [
+                "r6b": [
                     {
                         name: "divider1",
                         type: "divider",
                     }
                 ],
-                "row7": [
+                "r7": [
                     {
                         name: "checkbox",
                         type: "checkbox",
@@ -157,7 +157,7 @@ function App() {
                         options: defaultOptionsList,
                     },
                 ],
-                "row8": [
+                "r8": [
                     {
                         name: "textTransformed",
                         type: "text",
@@ -168,21 +168,10 @@ function App() {
                     }
                 ],
             }}
-            onSubmit={(fields) => {
-                console.log("on submit", fields);
-            }}
-            onError={(fields) => {
-                console.log("on error", fields);
-            }}
-            onChange={(e) => {
-                console.log("on change", e);
-            }}
             onBlur={(e) => {
                 console.log("on blur", e);
             }}
-            onFocus={(e) => {
-                console.log("on focus", e);
-            }}
+            debugPrint
         />
 
           <br />
@@ -194,11 +183,12 @@ function App() {
         <FormBuilder
             name="FormBuilderStatic"
             defaultValues={{
-              text: "text value",
-              textarea: "textarea value",
-              number: 2,
-              email: "email@email.email",
-              phone: "+420111555999",
+                text: "text value",
+                textarea: "textarea value",
+                number: 2,
+                email: "email@email.email",
+                phone: "+420111555999",
+                select: "value2",
             }}
             onSubmit={(fields) => {
               console.log("on submit", fields);
@@ -217,7 +207,7 @@ function App() {
             }}
             render={(props) => {
               const {
-                  // token,
+                  token,
                   form: {
                       control,
                       // formState,
@@ -232,6 +222,7 @@ function App() {
                       <FormRow
                           name="text"
                           label="Field text label"
+                          id={`${token}_text`}
                           required
                           control={control}
                           render={({ field, fieldState }) => {
@@ -242,6 +233,7 @@ function App() {
                                   <>
                                       <Text
                                           error={!!error}
+                                          id={`${token}_text`}
                                           {...rest}
                                       />
                                   </>
@@ -251,6 +243,7 @@ function App() {
                       <FormRow
                           name="textarea"
                           label="Field textarea label"
+                          id={`${token}_textarea`}
                           required
                           control={control}
                           render={({ field, fieldState }) => {
@@ -261,6 +254,7 @@ function App() {
                                   <>
                                       <Textarea
                                           error={!!error}
+                                          id={`${token}_textarea`}
                                           {...rest}
                                       />
                                   </>
@@ -270,8 +264,13 @@ function App() {
                       <FormRow
                           name="number"
                           label="Field number label"
+                          id={`${token}_number`}
                           required
                           control={control}
+                          rules={{
+                              min: 1,
+                              max: 10,
+                          }}
                           render={({ field, fieldState }) => {
                               const { ref, ...rest } = field;
                               const { error } = fieldState;
@@ -280,6 +279,7 @@ function App() {
                                   <>
                                       <Number
                                           error={!!error}
+                                          id={`${token}_number`}
                                           {...rest}
                                       />
                                   </>
@@ -289,6 +289,7 @@ function App() {
                       <FormRow
                           name="phone"
                           label="Field phone label"
+                          id={`${token}_phone`}
                           required
                           control={control}
                           render={({ field, fieldState }) => {
@@ -299,6 +300,7 @@ function App() {
                                   <>
                                       <Phone
                                           error={!!error}
+                                          id={`${token}_phone`}
                                           {...rest}
                                       />
                                   </>
@@ -308,6 +310,7 @@ function App() {
                       <FormRow
                           name="email"
                           label="Field email label"
+                          id={`${token}_email`}
                           required
                           control={control}
                           render={({ field, fieldState }) => {
@@ -318,6 +321,29 @@ function App() {
                                   <>
                                       <Email
                                           error={!!error}
+                                          id={`${token}_email`}
+                                          {...rest}
+                                      />
+                                  </>
+                              );
+                          }}
+                      />
+                      <FormRow
+                          name="select"
+                          label="Field select label"
+                          id={`${token}_select`}
+                          required
+                          control={control}
+                          render={({ field, fieldState }) => {
+                              const { ref, ...rest } = field;
+                              const { error } = fieldState;
+
+                              return (
+                                  <>
+                                      <Select
+                                          error={!!error}
+                                          id={`${token}_select`}
+                                          options={defaultOptionsList}
                                           {...rest}
                                       />
                                   </>
@@ -328,6 +354,7 @@ function App() {
                   </>
               );
             }}
+            debugPrint
         />
 
       </div>

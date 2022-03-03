@@ -1,7 +1,6 @@
 import React from "react";
 import {
     useForm,
-    UseFormReturn,
     UseFormProps,
     SubmitHandler,
     SubmitErrorHandler,
@@ -18,6 +17,7 @@ export interface FormProps<TFieldValues extends FieldValueProps = FieldValueProp
     onChange?: React.FormEventHandler<HTMLFormElement> | undefined;
     onBlur?: React.FormEventHandler<HTMLFormElement> | undefined;
     onFocus?: React.FormEventHandler<HTMLFormElement> | undefined;
+    debugPrint?: boolean;
 }
 
 const Form = (props: FormProps) => {
@@ -31,6 +31,7 @@ const Form = (props: FormProps) => {
         onBlur,
         onFocus,
         mode = "all",
+        debugPrint,
         ...rest
     } = props;
 
@@ -51,9 +52,19 @@ const Form = (props: FormProps) => {
             onChange={onChange}
             onBlur={onBlur}
             onFocus={onFocus}
-            children={render(form)}
             {...formProps}
-        />
+        >
+            <>
+                {render(form)}
+            </>
+            {debugPrint && (
+                <pre>
+                    <code>
+                        {JSON.stringify(form.form.watch(), null, 2)}
+                    </code>
+                </pre>
+            )}
+        </form>
     );
 };
 
