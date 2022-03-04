@@ -168,8 +168,29 @@ function App() {
                     }
                 ],
             }}
-            onBlur={(e) => {
+            onBlur={(form, e) => {
                 console.log("on blur", e);
+            }}
+            renderActions={(props) => {
+                const {
+                    form: {
+                        formState: {
+                            isValid,
+                            // isDirty,
+                        },
+                    },
+                } = props;
+
+                return (
+                    <>
+                        <button
+                            type="submit"
+                            disabled={!isValid}
+                        >
+                            Submit
+                        </button>
+                    </>
+                );
             }}
             debugPrint
         />
@@ -190,20 +211,29 @@ function App() {
                 phone: "+420111555999",
                 select: "value2",
             }}
-            onSubmit={(fields) => {
-              console.log("on submit", fields);
-            }}
-            onError={(fields) => {
-              console.log("on error", fields);
-            }}
-            onChange={(e) => {
-              console.log("on change", e);
-            }}
-            onBlur={(e) => {
+            onBlur={(form, e) => {
                 console.log("on blur", e);
             }}
-            onFocus={(e) => {
-                console.log("on focus", e);
+            renderActions={(props) => {
+                const {
+                    form: {
+                        formState: {
+                            isValid,
+                            // isDirty,
+                        },
+                    },
+                } = props;
+
+                return (
+                    <>
+                        <button
+                            type="submit"
+                            disabled={!isValid}
+                        >
+                            Submit
+                        </button>
+                    </>
+                );
             }}
             render={(props) => {
               const {

@@ -11,12 +11,14 @@ import { FieldValueProps, FormRowRenderProps } from "./types";
 export interface FormProps<TFieldValues extends FieldValueProps = FieldValueProps> extends UseFormProps {
     name: string;
     render: (form: FormRowRenderProps) => React.ReactNode;
+    renderActions?: (form: FormRowRenderProps) => React.ReactNode;
     formProps?: React.HTMLProps<HTMLFormElement>;
     onSubmit?: SubmitHandler<TFieldValues>;
-    onError?: SubmitErrorHandler<TFieldValues>;
-    onChange?: React.FormEventHandler<HTMLFormElement> | undefined;
-    onBlur?: React.FormEventHandler<HTMLFormElement> | undefined;
-    onFocus?: React.FormEventHandler<HTMLFormElement> | undefined;
+    onSubmitError?: SubmitErrorHandler<TFieldValues>;
+    onError?: (event: React.SyntheticEvent<HTMLFormElement, Event>) => void;
+    onChange?: (form: FormRowRenderProps, event: React.FormEvent<HTMLFormElement>) => void;
+    onBlur?: (form: FormRowRenderProps, event: React.FormEvent<HTMLFormElement>) => void;
+    onFocus?: (form: FormRowRenderProps, event: React.FormEvent<HTMLFormElement>) => void;
     debugPrint?: boolean;
 }
 
@@ -24,8 +26,10 @@ const Form = (props: FormProps) => {
     const {
         name,
         render,
+        renderActions,
         formProps,
         onSubmit,
+        onSubmitError,
         onChange,
         onError,
         onBlur,
@@ -43,20 +47,42 @@ const Form = (props: FormProps) => {
         }),
     };
 
+    const submitErrorHandler = (errors: any, event?: React.BaseSyntheticEvent) => {
+        if (onSubmitError) onSubmitError(errors, event);
+    };
+    const onErrorHandler = (event: React.SyntheticEvent<HTMLFormElement, Event>) => {
+        if (onError) onError(event);
+    };
+    const onChangeHandler = (event: React.FormEvent<HTMLFormElement>) => {
+        if (onChange) onChange(form, event);
+    };
+    const onBlurHandler = (event: React.FormEvent<HTMLFormElement>) => {
+        if (onBlur) onBlur(form, event);
+    };
+    const onFocusHandler = (event: React.FormEvent<HTMLFormElement>) => {
+        if (onFocus) onFocus(form, event);
+    };
+
     return (
         <form
             noValidate
             autoComplete="off"
             name={name}
-            onSubmit={onSubmit && form.form.handleSubmit(onSubmit, onError)}
-            onChange={onChange}
-            onBlur={onBlur}
-            onFocus={onFocus}
+            onSubmit={onSubmit && form.form.handleSubmit(onSubmit, submitErrorHandler)}
+            onChange={onChangeHandler}
+            onBlur={onBlurHandler}
+            onFocus={onFocusHandler}
+            onError={onErrorHandler}
             {...formProps}
         >
             <>
                 {render(form)}
             </>
+            {renderActions && (
+                <>
+                    {renderActions(form)}
+                </>
+            )}
             {debugPrint && (
                 <pre>
                     <code>
