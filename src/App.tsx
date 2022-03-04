@@ -195,6 +195,7 @@ function App() {
                 );
             }}
             mandatoryMessage
+            debugPrint
         />
 
           <br />

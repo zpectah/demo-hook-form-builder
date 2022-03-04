@@ -34,6 +34,7 @@ export type FormMetaItemProps = {
     max?: number,
     step?: number,
     disabled?: boolean,
+    readonly?: boolean,
     options?: any[];
     helps?: string[];
     transformValue?: (value: string, e?: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => DefaultValueProps;

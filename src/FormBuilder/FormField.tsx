@@ -38,6 +38,7 @@ const FormField = (props: FormFieldProps) => {
             max,
             step,
             disabled,
+            readonly,
             options = [],
             helps = [],
             transformValue,
@@ -108,7 +109,7 @@ const FormField = (props: FormFieldProps) => {
                     return node;
                 };
 
-                const checkboxToggle = (e: any) => {
+                const valueArrayToggle = (e: any) => {
                     const val: string | number = e.target.value;
                     const arr = [ ...value ];
                     const index = arr.indexOf(val);
@@ -149,6 +150,7 @@ const FormField = (props: FormFieldProps) => {
                                 error={!!error}
                                 placeholder={placeholder}
                                 required={required}
+                                readOnly={readonly}
                                 disabled={disabledControl()}
                                 onChange={changeControl}
                                 value={value}
@@ -163,6 +165,7 @@ const FormField = (props: FormFieldProps) => {
                                 error={!!error}
                                 placeholder={placeholder}
                                 required={required}
+                                readOnly={readonly}
                                 disabled={disabled}
                                 onChange={changeControl}
                                 value={value}
@@ -177,6 +180,7 @@ const FormField = (props: FormFieldProps) => {
                                 error={!!error}
                                 placeholder={placeholder}
                                 required={required}
+                                readOnly={readonly}
                                 disabled={disabled}
                                 onChange={changeControl}
                                 value={value}
@@ -194,6 +198,7 @@ const FormField = (props: FormFieldProps) => {
                                 error={!!error}
                                 placeholder={placeholder}
                                 required={required}
+                                readOnly={readonly}
                                 disabled={disabled}
                                 onChange={changeControl}
                                 value={value}
@@ -208,6 +213,7 @@ const FormField = (props: FormFieldProps) => {
                                 error={!!error}
                                 placeholder={placeholder}
                                 required={required}
+                                readOnly={readonly}
                                 disabled={disabled}
                                 onChange={changeControl}
                                 value={value}
@@ -222,6 +228,7 @@ const FormField = (props: FormFieldProps) => {
                                 error={!!error}
                                 placeholder={placeholder}
                                 required={required}
+                                readOnly={readonly}
                                 disabled={disabled}
                                 onChange={changeControl}
                                 value={value}
@@ -250,7 +257,7 @@ const FormField = (props: FormFieldProps) => {
                                                     checked={isChecked}
                                                     disabled={disabled}
                                                     label={label}
-                                                    onChange={checkboxToggle}
+                                                    onChange={valueArrayToggle}
                                                     {...rest}
                                                 />
                                             );
@@ -317,9 +324,10 @@ const FormField = (props: FormFieldProps) => {
                                 error={!!error}
                                 placeholder={placeholder}
                                 required={required}
+                                readOnly={readonly}
                                 disabled={disabled}
                                 options={options}
-                                onChange={changeControl}
+                                onChange={onChange}
                                 value={value}
                                 id={fieldId}
                                 {...fieldRest}
@@ -332,9 +340,10 @@ const FormField = (props: FormFieldProps) => {
                                 error={!!error}
                                 placeholder={placeholder}
                                 required={required}
+                                readOnly={readonly}
                                 disabled={disabled}
                                 options={options}
-                                onChange={changeControl}
+                                onChange={valueArrayToggle}
                                 value={value}
                                 id={fieldId}
                                 {...fieldRest}
