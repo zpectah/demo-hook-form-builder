@@ -32,6 +32,7 @@ export type FormMetaItemProps = {
     maxLength?: number,
     min?: number,
     max?: number,
+    step?: number,
     disabled?: boolean,
     options?: any[];
     helps?: string[];

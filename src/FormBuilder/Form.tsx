@@ -20,6 +20,7 @@ export interface FormProps<TFieldValues extends FieldValueProps = FieldValueProp
     onBlur?: (form: FormRowRenderProps, event: React.FormEvent<HTMLFormElement>) => void;
     onFocus?: (form: FormRowRenderProps, event: React.FormEvent<HTMLFormElement>) => void;
     debugPrint?: boolean;
+    mandatoryMessage?: boolean;
 }
 
 const Form = (props: FormProps) => {
@@ -36,6 +37,7 @@ const Form = (props: FormProps) => {
         onFocus,
         mode = "all",
         debugPrint,
+        mandatoryMessage,
         ...rest
     } = props;
 
@@ -78,6 +80,13 @@ const Form = (props: FormProps) => {
             <>
                 {render(form)}
             </>
+            {mandatoryMessage && (
+                <div>
+                    <small>
+                        * This field is mandatory
+                    </small>
+                </div>
+            )}
             {renderActions && (
                 <>
                     {renderActions(form)}

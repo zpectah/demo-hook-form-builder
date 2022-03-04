@@ -36,6 +36,7 @@ const FormField = (props: FormFieldProps) => {
             maxLength,
             min,
             max,
+            step,
             disabled,
             options = [],
             helps = [],
@@ -180,6 +181,9 @@ const FormField = (props: FormFieldProps) => {
                                 onChange={changeControl}
                                 value={value}
                                 id={fieldId}
+                                min={min}
+                                max={max}
+                                step={step}
                                 {...fieldRest}
                             />
                         );

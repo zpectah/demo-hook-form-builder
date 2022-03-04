@@ -82,11 +82,13 @@ function App() {
                     {
                         name: "number",
                         type: "number",
-                        defaultValue: 99,
+                        defaultValue: 2,
                         label: "Text label",
                         placeholder: "Type number value",
                         required: true,
-                        disabled: true,
+                        min: 0,
+                        max: 12,
+                        step: 2,
                         helps: [
                             "First row of helper text ..."
                         ],
@@ -104,7 +106,7 @@ function App() {
                         helps: [
                             "First row of helper text ..."
                         ],
-                        showWhen: (form => form.watch("select") !== "value1"),
+                        showWhen: (form => form.watch("select") !== "value1" || form.watch("number") >= 4),
                     },
                 ],
                 "r5": [
@@ -192,7 +194,7 @@ function App() {
                     </>
                 );
             }}
-            debugPrint
+            mandatoryMessage
         />
 
           <br />
@@ -298,7 +300,7 @@ function App() {
                           required
                           control={control}
                           rules={{
-                              min: 1,
+                              min: 0,
                               max: 10,
                           }}
                           render={({ field, fieldState }) => {
@@ -310,6 +312,9 @@ function App() {
                                       <Number
                                           error={!!error}
                                           id={`${token}_number`}
+                                          min={0}
+                                          max={10}
+                                          step={2}
                                           {...rest}
                                       />
                                   </>
@@ -384,6 +389,7 @@ function App() {
                   </>
               );
             }}
+            mandatoryMessage
             debugPrint
         />
 
